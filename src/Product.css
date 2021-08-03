@@ -40,3 +40,12 @@
     height: 100px;
     margin-bottom: 15px;
 }
+
+.product_price {
+    font-family: "Amazon Ember", Arial, sans-serif;
+    font-weight: 400!important;
+    font-style: normal!important;
+    text-transform: none!important;
+    font-size: 21px;
+    color: #B12704;
+}

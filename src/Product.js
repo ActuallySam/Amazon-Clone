@@ -29,7 +29,7 @@ function Product({ id, title, image, price, rating }) {
             <div className="product_info">
                 <p>{title}</p>
                 <p className="product_price">
-                    <small>$</small>
+                    <sup><small>₹</small></sup>
                     <strong>{price}</strong>
                 </p>
 
@@ -37,7 +37,7 @@ function Product({ id, title, image, price, rating }) {
                     {Array(rating)
                     .fill()
                     .map((_, i) => (
-                        <p>*</p>
+                        <p>🌟</p>
                     ))}
                 </div>
             </div>
