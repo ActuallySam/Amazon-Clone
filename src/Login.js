@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { auth } from "./firebase";
 
 function Login() {
 
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const signIn = e => {
         e.preventDefault();
+
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then(auth => {
+                history.push('/')
+            })
+            .catch(error => alert(error.message))
 
         //fancy firebase login shiiizzzz
     }
@@ -16,13 +25,22 @@ function Login() {
     const register = e => {
         e.preventDefault();
 
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((auth) => {
+                //it successfully creates a new user with email and password
+                if (auth)
+                    history.push('/')
+            })
+            .catch(error => alert(error.message))
+
         //fancy firebase register  shiiizzzz
     }
 
     return (
         <div className="login">
             <Link to="/">
-                <img src="" alt="" />
+                <img className="login_logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png" alt="" />
             </Link>
 
             <div className="login_container">
