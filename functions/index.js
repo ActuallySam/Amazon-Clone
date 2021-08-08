@@ -1,45 +1,39 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
-const { response } = require("express");
-const stripe = require("stripe")('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')
+const stripe = require("stripe")("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");
 
+// API
 
-
-//API
-
-
-//App Config
+// - App config
 const app = express();
 
-//Middlewares
+// - Middlewares
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-//API routes
-app.get('/', (request, response) => response.status(200).send('hello world'))
+// - API routes
+app.get("/", (request, response) => response.status(200).send("hello world"));
 
-app.post('/payments/create', async (request, response) => {
-    const total = request.query.total;
+app.post("/payments/create", async (request, response) => {
+  const total = request.query.total;
 
-    console.log('Payment request received', total);
+  console.log("Payment Request Recieved BOOM DA BOOOPPPIIITTYY BOOOOPPPP!!! for this amount >>> ", total);
 
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: total,      //submits your currency
-        currency: "inr",
-    });
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: total, // subunits of the currency
+    currency: "INR",
+  });
 
-    //OK created
-    response.status(201).send({
-        clientSecret: paymentIntent.client_secret,
-    });
+  // OK - Created
+  response.status(201).send({
+    clientSecret: paymentIntent.client_secret,
+  });
 });
 
-
-
-
-//Listen commands
+// - Listen command
 exports.api = functions.https.onRequest(app);
+
 
 
 //Example endpoint
