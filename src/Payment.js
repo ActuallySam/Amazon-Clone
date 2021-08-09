@@ -36,8 +36,8 @@ function Payment() {
         getClientSecret();
     }, [basket])
 
-    console.log('THE SECRET IS >>>', clientSecret)
-    console.log('👱', user)
+    console.log('THE SECRET IS >>>', clientSecret);
+    console.log('👱', user);
 
     const handleSubmit = async (event) => {
         // do all the fancy stripe stuff...
@@ -51,11 +51,16 @@ function Payment() {
         }).then(({ paymentIntent }) => {
             // paymentIntent = payment confirmation
 
-            db.collection('users').doc(user?.uid).collection('orders').doc(paymentIntent.id).set({
+            db
+            .collection('users')
+            .doc(user?.uid)
+            .collection('orders')
+            .doc(paymentIntent.id)
+            .set({
                   basket: basket,
                   amount: paymentIntent.amount,
                   created: paymentIntent.created
-            });
+            })
 
             setSucceeded(true);
             setError(null)
@@ -124,35 +129,35 @@ function Payment() {
                         <h3>Payment Method</h3>
                     </div>
                     <div className="payment_details">
-                            {/* Stripe magic will go */}
+                        {/* Stripe magic will go */}
 
-                            <form onSubmit={handleSubmit}>
-                                <CardElement onChange={handleChange}/>
+                        <form onSubmit={handleSubmit}>
+                            <CardElement onChange={handleChange}/>
 
-                                <div className='payment_priceContainer'>
-                                    <CurrencyFormat
-                                        renderText={(value) => (
-                                            <h3>Order Total: {value}</h3>
-                                        )}
-                                        decimalScale={2}
-                                        value={getBasketTotal(basket)}
-                                        displayType={"text"}
-                                        thousandSeparator={true}
-                                        prefix={"$"}
-                                    />
-                                    <button disabled={processing || disabled || succeeded}>
-                                        <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
-                                    </button>
-                                </div>
+                            <div className='payment_priceContainer'>
+                                <CurrencyFormat
+                                    renderText={(value) => (
+                                        <h3>Order Total: {value}</h3>
+                                    )}
+                                    decimalScale={2}
+                                    value={getBasketTotal(basket)}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    prefix={"₹"}
+                                />
+                                <button disabled={processing || disabled || succeeded}>
+                                    <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                                </button>
+                            </div>
 
-                                  {/* Errors */}
-                                {error && <div>{error}</div>}
-                            </form>
+                            {/* Errors */}
+                            {error && <div>{error}</div>}
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Payment;
